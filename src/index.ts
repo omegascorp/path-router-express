@@ -99,9 +99,11 @@ export function createRouter(params: IRouter) {
       const promises: Array<Promise<any>> = [
         Promise.resolve(request),
       ];
-      route.resolves.forEach((resolve: IRouterResolve) => {
-        promises.push(resolve(request, response));
-      });
+      if (route.resolves) {
+        route.resolves.forEach((resolve: IRouterResolve) => {
+          promises.push(resolve(request, response));
+        });
+      }
       Promise.all(promises).then((results: any[]) => {
         if (route.action) {
           return controller[route.action].apply(controller, results);

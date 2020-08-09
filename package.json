@@ -1,6 +1,6 @@
 {
   "name": "path-router-express",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Path Router Express",
   "main": "dist/index.js",
   "typings": "typescript/index.d.ts",

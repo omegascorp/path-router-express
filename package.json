@@ -1,0 +1,28 @@
+{
+  "name": "path-router-express",
+  "version": "0.0.1",
+  "description": "Path Router Express",
+  "main": "dist/index.js",
+  "typings": "typescript/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omegascorp/path-router-express.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omegascorp/path-router-express/issues"
+  },
+  "homepage": "https://github.com/omegascorp/path-router-express#readme",
+  "peerDependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.0.27",
+    "typescript": "^3.9.7"
+  }
+}

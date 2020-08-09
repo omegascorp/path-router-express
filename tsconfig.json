@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2017",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ],
+    "declaration": true,
+    "declarationDir": "typescript"
+  },
+  "include": [
+    "./src/*.ts"
+  ]
+}

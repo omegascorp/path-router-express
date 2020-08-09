@@ -89,7 +89,7 @@ function handler(
   }
 }
 
-export default function routerServiceFactory(params: IRouter) {
+export function createRouter(params: IRouter) {
   const router: express.Router = express.Router();
   const controller: {[key: string]: any} = params.controller;
 

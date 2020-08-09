@@ -193,7 +193,7 @@ export function createRouter(params: IRouter) {
         response.json({
           error: {
             name: "internalError",
-            message: "Internal Error",
+            message: error.message || "Internal Error",
           },
         });
       });

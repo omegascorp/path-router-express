@@ -96,7 +96,9 @@ export function createRouter(params: IRouter) {
   params.routes.forEach((route: IRoute) => {
     handler(router, route.method, route.path, (request: IRouterRequest, response: IRouterResponse) => {
       const time = Date.now();
-      const promises: Array<Promise<any>> = [];
+      const promises: Array<Promise<any>> = [
+        Promise.resolve(request),
+      ];
       route.resolves.forEach((resolve: IRouterResolve) => {
         promises.push(resolve(request, response));
       });

@@ -10,44 +10,44 @@ export enum Method {
   delete = "delete",
 };
 
-export type IRouterResolve = (request: IRouterRequest, response?: IRouterResponse) => Promise<any> | any;
+export type RouterResolve = (request: RouterRequest, response?: RouterResponse) => Promise<any> | any;
 
-export interface ILog {
+export interface Log {
   error: (...params: string[]) => void;
 }
 
-export interface IRoute {
+export interface Route {
   method: Method;
   path: string;
-  resolves?: IRouterResolve[];
+  resolves?: RouterResolve[];
   action?: string;
-  callback?: (...params: any[]) => Promise<IResult<any>>;
+  callback?: (...params: any[]) => Promise<Result<any>>;
 }
 
-export interface IError {
+export interface ErrorResult {
   status?: number;
   name?: string;
   message?: string;
   details?: object;
 }
 
-export interface IRouter {
+export interface Router {
   debug: boolean,
   controller?: object;
-  onError?: (error: Error) => IError;
-  log: ILog;
-  routes: IRoute[];
+  onError?: (error: Error) => ErrorResult;
+  log: Log;
+  routes: Route[];
 }
 
-export interface ICookie {
+export interface Cookie {
   value: string;
   options: CookieOptions;
 }
 
-export interface IResult<T> {
+export interface Result<T> {
   json?: T;
   binary?: Buffer;
-  cookies?: {[key: string]: ICookie};
+  cookies?: {[key: string]: Cookie};
   headers?: {[key: string]: string};
   redirect?: string;
   status?: number;
@@ -58,17 +58,15 @@ export interface IResult<T> {
   stream?: NodeJS.ReadableStream;
 }
 
-export interface IRouterRequest extends express.Request {
-  files: {[key: string]: File};
-}
+export interface RouterRequest extends express.Request {}
 
-export interface IRouterResponse extends express.Response {}
+export interface RouterResponse extends express.Response {}
 
 function handler(
   router: express.Router,
   method: string,
   path: string,
-  listener: (request: IRouterRequest, response: IRouterResponse) => void,
+  listener: (request: RouterRequest, response: RouterResponse) => void,
 ) {
   switch (method) {
     case Method.get: {
@@ -89,18 +87,18 @@ function handler(
   }
 }
 
-export function createRouter(params: IRouter) {
+export function createRouter(params: Router) {
   const router: express.Router = express.Router();
   const controller: {[key: string]: any} = params.controller;
 
-  params.routes.forEach((route: IRoute) => {
-    handler(router, route.method, route.path, (request: IRouterRequest, response: IRouterResponse) => {
+  params.routes.forEach((route: Route) => {
+    handler(router, route.method, route.path, (request: RouterRequest, response: RouterResponse) => {
       const time = Date.now();
       const promises: Array<Promise<any>> = [
         Promise.resolve(request),
       ];
       if (route.resolves) {
-        route.resolves.forEach((resolve: IRouterResolve) => {
+        route.resolves.forEach((resolve: RouterResolve) => {
           promises.push(resolve(request, response));
         });
       }
@@ -109,10 +107,10 @@ export function createRouter(params: IRouter) {
           return controller[route.action].apply(controller, results);
         }
         return route.callback(...results);
-      }).then((result: IResult<any>) => {
+      }).then((result: Result<any>) => {
         if (typeof result.cookies === "object") {
           Object.keys(result.cookies).forEach((key) => {
-            const cookie: ICookie = result.cookies[key];
+            const cookie: Cookie = result.cookies[key];
             response.cookie(key, cookie.value, cookie.options);
           });
         }

@@ -155,7 +155,7 @@ export function createRouter(params: Router) {
           response.end(result.text);
         } else if (typeof result.content === "string") {
           const content = result.content;
-          if (!result.headers["Content-Type"] && !result.headers["content-type"]) {
+          if (!result.headers || !result.headers["Content-Type"] && !result.headers["content-type"]) {
             response.contentType("text/html; charset=UTF-8");
           }
           response.end(content);

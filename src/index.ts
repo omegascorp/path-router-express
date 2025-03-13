@@ -13,7 +13,7 @@ export enum Method {
 export type RouterResolve = (request: RouterRequest, response?: RouterResponse) => Promise<any> | any;
 
 export interface Log {
-  error: (...params: string[]) => void;
+  error: (handler: string, error: Error) => void;
 }
 
 export interface Route {

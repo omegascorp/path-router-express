@@ -1,5 +1,5 @@
 
-import express from "express";
+import express, { Request } from "express";
 import { CookieOptions } from "express";
 
 export enum Method {
@@ -34,7 +34,7 @@ export interface ErrorResult {
 export interface Router {
   debug: boolean,
   controller?: object;
-  onError?: (error: Error) => ErrorResult;
+  onError?: (error: Error, request: Request) => ErrorResult;
   log: Log;
   routes: Route[];
 }
@@ -176,7 +176,7 @@ export function createRouter(params: Router) {
         }
       }).catch((error) => {
         if (error && typeof params.onError === "function") {
-          const errorData = params.onError(error);
+          const errorData = params.onError(error, request);
           if (errorData.status) {
             response.status(errorData.status);
           }
